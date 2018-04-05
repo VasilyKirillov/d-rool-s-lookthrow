@@ -1,19 +1,51 @@
 package rules;
 
-import model.Applicant;
-import model.Application;
+import model.*;
 
-rule "Is of valid age"
+rule "When there is a fire turn on the sprinkler"
 when
-    Applicant( age < 18 )
-    $a : Application()
+    Fire($room : room)
+    $sprinkler : Sprinkler( room == $room, on == false )
 then
-    $a.setValid( false );
+    modify( $sprinkler ) { setOn( true ) };
+    System.out.println( "Turn on the sprinkler for room " + $room.getName() );
 end
 
-rule "Application was made this year"
+//not matches the absence of a fact
+rule "When the fire is gone turn off the sprinkler"
 when
-    $a : Application( dateApplied > "01-jan-2009" )
+    $room : Room( )
+    $sprinkler : Sprinkler( room == $room, on == true )
+    not Fire( room == $room )
 then
-    $a.setValid( false );
+    modify( $sprinkler ) { setOn( false ) };
+    System.out.println( "Turn off the sprinkler for room " + $room.getName() );
+end
+
+//exists which matches for one or more instances of some category.
+rule "Raise the alarm when we have one or more fires"
+when
+    exists Fire()
+then
+    insert( new Alarm() );
+    System.out.println( "Raise the alarm" );
+end
+
+//when there are no fires we want to remove the alarm
+rule "Cancel the alarm when all the fires have gone"
+when
+    not Fire()
+    $alarm : Alarm()
+then
+    delete( $alarm );
+    System.out.println( "Cancel the alarm" );
+end
+
+
+rule "Status output when things are ok"
+when
+    not Alarm()
+    not Sprinkler( on == true )
+then
+    System.out.println( "Everything is ok" );
 end

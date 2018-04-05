@@ -29,6 +29,11 @@
             <artifactId>drools-compiler</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-api</artifactId>
+        <version>LATEST</version>
+    </dependency>
         <!--<dependency>-->
         <!--<groupId>org.kie</groupId>-->
         <!--<artifactId>kie-internal</artifactId>-->
