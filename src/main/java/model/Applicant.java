@@ -3,7 +3,6 @@ package model;
 public class Applicant {
     private String name;
     private int age;
-    private boolean valid = true;
 
     public Applicant(String name, int age) {
         this.name = name;
@@ -26,11 +25,4 @@ public class Applicant {
         this.age = age;
     }
 
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
 }
