@@ -1,0 +1,10 @@
+package rules;
+
+import model.Applicant;
+
+rule "is of valid age"
+when
+    $a: Applicant( age < 18 )
+then
+    $a.setValid(false);
+end
